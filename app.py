@@ -16,6 +16,13 @@ import web_db
 load_dotenv()
 
 app = Flask(__name__)
+
+# Crée les tables si elles n'existent pas encore (idempotent)
+try:
+    web_db.init_db()
+except Exception as _init_err:
+    import logging as _log
+    _log.getLogger("app").warning("init_db failed: %s", _init_err)
 app.secret_key = os.getenv("SESSION_SECRET", "change-me-in-production")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
