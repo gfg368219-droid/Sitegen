@@ -265,6 +265,28 @@ def fmt_cooldown_filter(s):
     return fmt_cooldown(s)
 
 
+# ── Webhook notifications ─────────────────────────────────────────────────────
+
+def _send_restock_webhook(service_name: str, image_url: str | None, added: int) -> None:
+    """POST a Discord embed to DISCORD_WEBHOOK after a restock. Never raises."""
+    url = os.getenv("DISCORD_WEBHOOK")
+    if not url:
+        return
+    plural = "s" if added > 1 else ""
+    embed: dict = {
+        "title": f"Restock +{added} compte{plural} {service_name}",
+        "color": 0x7C3AED,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "footer": {"text": "ProaltsGen"},
+    }
+    if image_url:
+        embed["thumbnail"] = {"url": image_url}
+    try:
+        requests.post(url, json={"embeds": [embed]}, timeout=5)
+    except Exception:
+        pass
+
+
 # ── SVG icon library ──────────────────────────────────────────────────────────
 
 _GRAD = (
@@ -614,6 +636,8 @@ def admin_stock(service_id):
             flash(f"Aucun compte valide trouvé (type : {account_type}).", "error")
             return render_template("admin/stock.html", service=svc)
         added = web_db.add_accounts(service_id, accounts, account_type)
+        if added > 0:
+            _send_restock_webhook(svc["name"], svc.get("image_url"), added)
         skipped = len(accounts) - added
         flash(
             f"{added} compte(s) ajouté(s) au stock"

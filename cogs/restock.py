@@ -1,8 +1,36 @@
+import os
+
+import aiohttp
 import discord
 from discord import app_commands
 from discord.ext import commands
 import database
 from datetime import datetime, timezone
+
+
+async def _send_restock_webhook(service_name: str, image_url: str | None, added: int) -> None:
+    """POST a Discord embed to DISCORD_WEBHOOK. Never raises."""
+    url = os.getenv("DISCORD_WEBHOOK")
+    if not url:
+        return
+    plural = "s" if added > 1 else ""
+    embed = {
+        "title": f"Restock +{added} compte{plural} {service_name}",
+        "color": 0x7C3AED,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "footer": {"text": "ProaltsGen"},
+    }
+    if image_url:
+        embed["thumbnail"] = {"url": image_url}
+    try:
+        async with aiohttp.ClientSession() as session:
+            await session.post(
+                url,
+                json={"embeds": [embed]},
+                timeout=aiohttp.ClientTimeout(total=5),
+            )
+    except Exception:
+        pass
 
 RESTOCK_ROLE_ID = 1517909085453029487
 
@@ -111,6 +139,8 @@ class Restock(commands.Cog):
             return
 
         await database.add_accounts(service_id, accounts)
+        image_url = svc.get("image_url") if svc else None
+        await _send_restock_webhook(svc["name"], image_url, len(accounts))
         new_count = await database.count_accounts(service_id)
         label = service_label(svc)
 
@@ -235,6 +265,8 @@ class Restock(commands.Cog):
             return
 
         await database.add_accounts(service_id, accounts)
+        image_url = svc.get("image_url") if svc else None
+        await _send_restock_webhook(svc["name"], image_url, len(accounts))
         new_count = await database.count_accounts(service_id)
         label = service_label(svc)
 
