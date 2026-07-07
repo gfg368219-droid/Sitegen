@@ -99,7 +99,11 @@ def join_guild(user_id: str, access_token: str) -> bool:
 def get_member_roles(user_id: str) -> list[int]:
     """Fetch role IDs for a guild member using the bot token."""
     guild_id = _guild_id()
-    if not guild_id or not BOT_TOKEN:
+    if not guild_id:
+        app.logger.warning("get_member_roles: GUILD_ID non configuré")
+        return []
+    if not BOT_TOKEN:
+        app.logger.warning("get_member_roles: DISCORD_TOKEN non configuré")
         return []
     try:
         r = requests.get(
@@ -107,10 +111,21 @@ def get_member_roles(user_id: str) -> list[int]:
             headers={"Authorization": f"Bot {BOT_TOKEN}"},
             timeout=5,
         )
+        app.logger.info(
+            "get_member_roles: user=%s guild=%s status=%s",
+            user_id, guild_id, r.status_code,
+        )
         if r.status_code == 200:
-            return [int(rid) for rid in r.json().get("roles", [])]
-    except Exception:
-        pass
+            roles = [int(rid) for rid in r.json().get("roles", [])]
+            app.logger.info("get_member_roles: roles=%s", roles)
+            return roles
+        else:
+            app.logger.warning(
+                "get_member_roles: Discord API error %s — %s",
+                r.status_code, r.text[:200],
+            )
+    except Exception as exc:
+        app.logger.error("get_member_roles: exception — %s", exc)
     return []
 
 
@@ -554,6 +569,29 @@ def gen_account(service_id):
 
 
 # ── Admin routes ──────────────────────────────────────────────────────────────
+
+@app.route("/admin/debug")
+@login_required
+def admin_debug():
+    """Diagnostic : affiche les rôles Discord de l'utilisateur connecté."""
+    from flask import jsonify
+    user_id = session["user"]["id"]
+    guild_id = _guild_id()
+    roles = get_member_roles(user_id)
+    return jsonify({
+        "user_id": user_id,
+        "guild_id": guild_id,
+        "guild_id_configured": bool(guild_id),
+        "bot_token_configured": bool(BOT_TOKEN),
+        "roles_fetched": roles,
+        "ADMIN_ROLE_ID": ADMIN_ROLE_ID,
+        "OWNER_ROLE_ID": OWNER_ROLE_ID,
+        "is_admin": ADMIN_ROLE_ID in roles or OWNER_ROLE_ID in roles,
+        "is_owner": OWNER_ROLE_ID in roles,
+        "session_is_admin": session["user"].get("is_admin"),
+        "session_is_owner": session["user"].get("is_owner"),
+    })
+
 
 @app.route("/admin")
 @admin_required
