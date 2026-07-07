@@ -26,8 +26,8 @@ except Exception as _init_err:
 app.secret_key = os.getenv("SESSION_SECRET", "change-me-in-production")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-ADMIN_ROLE_ID = 1517909085453029487
-OWNER_ROLE_ID = 1517892778938470531
+OWNER_ROLE_ID = 1517909085453029487
+ADMIN_ROLE_ID = 1517892778938470531
 
 DISCORD_API = "https://discord.com/api/v10"
 CLIENT_ID = os.getenv("DISCORD_CLIENT_ID", "")

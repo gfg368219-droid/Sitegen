@@ -33,8 +33,8 @@ python run.py   # Démarre le bot Discord + le serveur web Flask ensemble
 
 | Rôle    | ID                    | Permissions                                |
 |---------|-----------------------|--------------------------------------------|
-| Admin   | `1517909085453029487` | Créer/modifier/supprimer services, stock   |
-| Owner   | `1517892778938470531` | Tout l'admin + configurer les cooldowns    |
+| Owner   | `1517909085453029487` | Tout l'admin + configurer les cooldowns    |
+| Admin   | `1517892778938470531` | Créer/modifier/supprimer services, stock   |
 
 ## Pages web
 
