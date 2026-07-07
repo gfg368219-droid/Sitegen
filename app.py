@@ -245,13 +245,13 @@ def parse_accounts(text: str) -> list[tuple[str, str, str]]:
         line = raw.strip()
         if not line:
             continue
-        # Skip URLs
-        if "http" in line.lower():
-            continue
-        # Discard everything from | onwards
+        # Discard everything from | onwards AVANT le check http
         if "|" in line:
             line = line.split("|", 1)[0].strip()
-        if not line or ":" not in line:
+        # Skip si la ligne restante est une URL
+        if not line or "http" in line.lower():
+            continue
+        if ":" not in line:
             continue
         idx = line.index(":")
         identifier = line[:idx].strip()

@@ -46,11 +46,13 @@ def _parse_accounts(text: str) -> list[tuple[str, str, str]]:
     accounts = []
     for raw in text.splitlines():
         line = raw.strip()
-        if not line or "http" in line.lower():
+        if not line:
             continue
         if "|" in line:
             line = line.split("|", 1)[0].strip()
-        if not line or ":" not in line:
+        if not line or "http" in line.lower():
+            continue
+        if ":" not in line:
             continue
         idx = line.index(":")
         identifier = line[:idx].strip()
