@@ -199,11 +199,14 @@ def delete_service(service_id: int):
 
 # ── Accounts / Stock ──────────────────────────────────────────────────────────
 
-def add_accounts(service_id: int, accounts: list[tuple], account_type: str = "email") -> int:
-    """Insert accounts into stock. Returns number of rows actually inserted."""
+def add_accounts(service_id: int, accounts: list[tuple]) -> int:
+    """Insert accounts into stock. Returns number of rows actually inserted.
+    Each tuple must be (identifier, password, account_type).
+    """
     added = 0
     with _db() as cur:
-        for identifier, password in accounts:
+        for row in accounts:
+            identifier, password, account_type = row[0], row[1], row[2] if len(row) > 2 else "email"
             cur.execute(
                 "INSERT INTO accounts (service_id, email, password, account_type) "
                 "VALUES (%s, %s, %s, %s) ON CONFLICT (service_id, email) DO NOTHING",

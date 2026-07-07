@@ -101,12 +101,18 @@ async def delete_service(service_id: int):
 
 # ── Accounts ──────────────────────────────────────────────────────────────────
 
-async def add_accounts(service_id: int, accounts: list[tuple[str, str]]):
+async def add_accounts(service_id: int, accounts: list[tuple]):
+    """Insert accounts. Each tuple: (identifier, password) or (identifier, password, account_type)."""
+    rows = []
+    for row in accounts:
+        identifier, password = row[0], row[1]
+        account_type = row[2] if len(row) > 2 else ("email" if "@" in identifier else "user")
+        rows.append((service_id, identifier, password, account_type))
     async with pool.acquire() as conn:
         result = await conn.executemany(
-            "INSERT INTO accounts (service_id, email, password) VALUES ($1, $2, $3) "
+            "INSERT INTO accounts (service_id, email, password, account_type) VALUES ($1, $2, $3, $4) "
             "ON CONFLICT (service_id, email) DO NOTHING",
-            [(service_id, email, pwd) for email, pwd in accounts]
+            rows
         )
     log.info("[ACCOUNTS] %d compte(s) ajoutes au service %s (doublons ignores)",
              len(accounts), service_id)

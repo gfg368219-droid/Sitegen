@@ -229,13 +229,26 @@ def fmt_cooldown(seconds: float) -> str:
     return f"{m}m {s}s" if s else f"{m}m"
 
 
-def parse_accounts(text: str, account_type: str) -> list[tuple[str, str]]:
-    """Parse accounts from .txt file content."""
+def parse_accounts(text: str) -> list[tuple[str, str, str]]:
+    """Parse accounts from .txt content.
+    Returns list of (identifier, password, account_type).
+    Rules:
+      - One account per line
+      - Everything after the first | is discarded
+      - Lines containing http/https are skipped
+      - Must have identifier:password with both parts non-empty
+      - Identifier must not contain spaces, / or \\
+      - account_type = "email" if @ present, else "user"
+    """
     accounts = []
     for raw in text.splitlines():
         line = raw.strip()
-        if not line or "http" in line.lower():
+        if not line:
             continue
+        # Skip URLs
+        if "http" in line.lower():
+            continue
+        # Discard everything from | onwards
         if "|" in line:
             line = line.split("|", 1)[0].strip()
         if not line or ":" not in line:
@@ -243,15 +256,14 @@ def parse_accounts(text: str, account_type: str) -> list[tuple[str, str]]:
         idx = line.index(":")
         identifier = line[:idx].strip()
         password = line[idx + 1:].strip()
+        # Both parts must be present
         if not identifier or not password:
             continue
-        if "/" in identifier or "\\" in identifier:
+        # Reject suspicious identifiers
+        if "/" in identifier or "\\" in identifier or " " in identifier:
             continue
-        if account_type == "email" and "@" not in identifier:
-            continue
-        if account_type == "user" and "@" in identifier:
-            continue
-        accounts.append((identifier, password))
+        account_type = "email" if "@" in identifier else "user"
+        accounts.append((identifier, password, account_type))
     return accounts
 
 
@@ -664,9 +676,6 @@ def admin_stock(service_id):
         abort(404)
     if request.method == "POST":
         _require_csrf()
-        account_type = request.form.get("account_type", "email")
-        if account_type not in ("email", "user"):
-            account_type = "email"
         f = request.files.get("file")
         if not f or not f.filename.lower().endswith(".txt"):
             flash("Veuillez uploader un fichier .txt valide.", "error")
@@ -676,11 +685,11 @@ def admin_stock(service_id):
         except Exception:
             flash("Impossible de lire le fichier.", "error")
             return render_template("admin/stock.html", service=svc)
-        accounts = parse_accounts(content, account_type)
+        accounts = parse_accounts(content)
         if not accounts:
-            flash(f"Aucun compte valide trouvé (type : {account_type}).", "error")
+            flash("Aucun compte valide trouvé. Vérifiez le format (identifier:password, un par ligne).", "error")
             return render_template("admin/stock.html", service=svc)
-        added = web_db.add_accounts(service_id, accounts, account_type)
+        added = web_db.add_accounts(service_id, accounts)
         if added > 0:
             _send_restock_webhook(svc["name"], svc.get("image_url"), added)
         skipped = len(accounts) - added

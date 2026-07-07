@@ -20,26 +20,6 @@
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
       <div class="form-group">
-        <label class="form-label">Type de format *</label>
-        <div class="radio-group">
-          <label class="radio-card">
-            <input type="radio" name="account_type" value="email" checked>
-            <div class="radio-card__body">
-              <span class="radio-card__title">email:password</span>
-              <span class="radio-card__desc">Identifiant avec @ (ex: user@gmail.com:pass123)</span>
-            </div>
-          </label>
-          <label class="radio-card">
-            <input type="radio" name="account_type" value="user">
-            <div class="radio-card__body">
-              <span class="radio-card__title">user:password</span>
-              <span class="radio-card__desc">Identifiant sans @ (ex: MonPseudo:pass123)</span>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group">
         <label for="file" class="form-label">Fichier .txt *</label>
         <div class="file-drop" id="fileDrop">
           <input type="file" id="file" name="file" accept=".txt" required class="file-input" onchange="onFile(this)">
@@ -50,7 +30,9 @@
         </div>
         <div class="form-hint">
           <strong>Règles de parsing :</strong>
-          Un compte par ligne · Les lignes avec http/https sont ignorées · Si <code>|</code> est présent, seule la partie avant est prise · Le format doit correspondre au type choisi
+          Un compte par ligne · Format <code>email:password</code> ou <code>user:password</code> (auto-détecté) ·
+          Si <code>|</code> est présent, seule la partie avant est prise ·
+          Les lignes avec http/https, sans <code>:</code> ou avec des caractères suspects sont ignorées
         </div>
       </div>
 

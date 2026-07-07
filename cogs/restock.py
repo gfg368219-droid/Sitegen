@@ -35,6 +35,35 @@ async def _send_restock_webhook(service_name: str, image_url: str | None, added:
 RESTOCK_ROLE_ID = 1517909085453029487
 
 
+def _parse_accounts(text: str) -> list[tuple[str, str, str]]:
+    """Parse accounts from .txt content.
+    Returns list of (identifier, password, account_type).
+    - Discards everything after | on each line
+    - Skips http/https lines
+    - Skips lines without identifier:password
+    - account_type = "email" if @ in identifier, else "user"
+    """
+    accounts = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or "http" in line.lower():
+            continue
+        if "|" in line:
+            line = line.split("|", 1)[0].strip()
+        if not line or ":" not in line:
+            continue
+        idx = line.index(":")
+        identifier = line[:idx].strip()
+        password = line[idx + 1:].strip()
+        if not identifier or not password:
+            continue
+        if "/" in identifier or "\\" in identifier or " " in identifier:
+            continue
+        account_type = "email" if "@" in identifier else "user"
+        accounts.append((identifier, password, account_type))
+    return accounts
+
+
 def service_label(service) -> str:
     if service["emoji"]:
         return f"{service['emoji']} {service['name']}"
@@ -114,26 +143,11 @@ class Restock(commands.Cog):
             await interaction.followup.send("Impossible de lire le fichier.", ephemeral=True)
             return
 
-        accounts = []
-        for line in text.splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            if "|" in line:
-                line = line.split("|", 1)[0].strip()
-            if ":" not in line:
-                continue
-            parts = line.split(":", 1)
-            if len(parts) != 2:
-                continue
-            email = parts[0].strip()
-            password = parts[1].strip()
-            if email and password and "@" in email:
-                accounts.append((email, password))
+        accounts = _parse_accounts(text)
 
         if not accounts:
             await interaction.followup.send(
-                "Aucun compte valide trouve (format attendu: `email:motdepasse` par ligne).",
+                "Aucun compte valide trouve (format attendu: `identifiant:motdepasse` par ligne).",
                 ephemeral=True
             )
             return
@@ -149,7 +163,7 @@ class Restock(commands.Cog):
             guild_id=interaction.guild_id,
             added_by=str(interaction.user),
             account_count=len(accounts),
-            accounts=accounts,
+            accounts=[(r[0], r[1]) for r in accounts],
             source="discord"
         )
 
@@ -242,24 +256,11 @@ class Restock(commands.Cog):
             await interaction.followup.send("Impossible de lire le fichier.", ephemeral=True)
             return
 
-        accounts = []
-        for line in text.splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            if ":" not in line:
-                continue
-            parts = line.split(":", 1)
-            if len(parts) != 2:
-                continue
-            email = parts[0].strip()
-            password = parts[1].strip()
-            if email and password and "@" in email:
-                accounts.append((email, password))
+        accounts = _parse_accounts(text)
 
         if not accounts:
             await interaction.followup.send(
-                "Aucun compte valide trouve (format attendu: `email:motdepasse` par ligne).",
+                "Aucun compte valide trouve (format attendu: `identifiant:motdepasse` par ligne).",
                 ephemeral=True
             )
             return
@@ -275,7 +276,7 @@ class Restock(commands.Cog):
             guild_id=interaction.guild_id,
             added_by=str(interaction.user),
             account_count=len(accounts),
-            accounts=accounts,
+            accounts=[(r[0], r[1]) for r in accounts],
             source="discord"
         )
 
