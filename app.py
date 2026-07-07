@@ -36,7 +36,7 @@ REDIRECT_URI = os.getenv("DISCORD_REDIRECT_URI", "")
 BOT_TOKEN = os.getenv("DISCORD_TOKEN", "")
 
 def _guild_id() -> int:
-    return int(os.getenv("GUILD_ID", "0"))
+    return 1517892677574590606
 
 
 # ── Discord helpers ───────────────────────────────────────────────────────────
