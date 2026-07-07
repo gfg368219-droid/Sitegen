@@ -1,0 +1,9 @@
+2026-06-20T17:02:09.640153597Z [inf]   * Serving Flask app 'dashboard'
+2026-06-20T17:02:09.640157987Z [inf]   * Debug mode: off
+2026-06-20T17:02:09.640164707Z [err]  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2026-06-20T17:02:09.640169917Z [err]   * Running on all addresses (0.0.0.0)
+2026-06-20T17:02:09.640174767Z [err]   * Running on http://127.0.0.1:8080
+2026-06-20T17:02:09.640179137Z [err]   * Running on http://10.222.240.249:8080
+2026-06-20T17:02:09.640183647Z [err]  [33mPress CTRL+C to quit[0m
+2026-06-20T17:02:09.640188377Z [err]  100.64.0.2 - - [20/Jun/2026 17:02:09] "GET /login HTTP/1.1" 200 -
+2026-06-20T17:02:09.940109358Z [inf]  Starting Container

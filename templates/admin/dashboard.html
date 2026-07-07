@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Admin — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Panel Admin</h1>
+      <p class="page-sub">Gestion des services et du stock.</p>
+    </div>
+    <a href="{{ url_for('admin_create_service') }}" class="btn btn-primary">
+      + Créer un service
+    </a>
+  </div>
+
+  {% if services %}
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Description</th>
+          <th>Stock</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for svc in services %}
+        <tr>
+          <td>
+            <div class="admin-service-name">
+              {% if svc.image_url %}
+                <img src="{{ svc.image_url }}" alt="" class="admin-service-thumb">
+              {% else %}
+                <span class="admin-service-icon">{{ icon('bolt', 20) }}</span>
+              {% endif %}
+              <span>{{ svc.name }}</span>
+            </div>
+          </td>
+          <td class="text-muted">{{ svc.description[:60] + '…' if svc.description and svc.description|length > 60 else (svc.description or '—') }}</td>
+          <td>
+            <span class="badge {% if svc.stock_count > 0 %}badge--green{% else %}badge--red{% endif %}">
+              {{ svc.stock_count }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <a href="{{ url_for('admin_stock', service_id=svc.id) }}" class="btn btn-sm btn-primary" title="Ajouter du stock">
+                {{ icon('box', 14) }} Stock
+              </a>
+              <a href="{{ url_for('admin_edit_service', service_id=svc.id) }}" class="btn btn-sm btn-ghost" title="Modifier">
+                {{ icon('edit', 14) }} Modifier
+              </a>
+              <form method="POST" action="{{ url_for('admin_delete_service', service_id=svc.id) }}"
+                    onsubmit="return confirm('Supprimer « {{ svc.name }} » et tout son stock ?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="btn btn-sm btn-danger" title="Supprimer">{{ icon('trash', 14) }} Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">{{ icon('box', 56) }}</div>
+    <h3>Aucun service créé</h3>
+    <p>Créez votre premier service en cliquant sur le bouton ci-dessus.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

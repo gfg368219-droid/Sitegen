@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Créer un service — Admin{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Retour au panel admin</a>
+
+  <div class="form-card">
+    <h1 class="form-title">Créer un service</h1>
+
+    <form method="POST" class="form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div class="form-group">
+        <label for="name" class="form-label">Nom du service *</label>
+        <input type="text" id="name" name="name" class="form-input"
+               placeholder="Ex: Netflix, Spotify…" required autofocus>
+      </div>
+
+      <div class="form-group">
+        <label for="image_url" class="form-label">URL de l'image / GIF</label>
+        <input type="url" id="image_url" name="image_url" class="form-input"
+               placeholder="https://media.giphy.com/…" oninput="previewImg(this.value)">
+        <div id="imgPreview" class="img-preview" style="display:none">
+          <img id="previewEl" src="" alt="Aperçu" class="img-preview__img">
+        </div>
+        <p class="form-hint">Collez l'URL d'un GIF ou d'une image. Ce média sera affiché sur la page du service.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-input form-textarea"
+                  placeholder="Description du service…" rows="3"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-ghost">Annuler</a>
+        <button type="submit" class="btn btn-primary">Créer le service</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function previewImg(url) {
+  const box = document.getElementById('imgPreview');
+  const el = document.getElementById('previewEl');
+  if (url) { el.src = url; box.style.display = 'block'; }
+  else { box.style.display = 'none'; }
+}
+</script>
+{% endblock %}

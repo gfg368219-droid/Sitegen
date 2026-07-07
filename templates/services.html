@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Services — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <div class="page-header">
+    <h1 class="page-title">Services disponibles</h1>
+    <p class="page-sub">Choisissez un service et générez votre compte instantanément.</p>
+  </div>
+
+  {% if services %}
+  <div class="services-grid">
+    {% for svc in services %}
+    <a href="{{ url_for('service', service_id=svc.id) }}" class="service-card">
+      <div class="service-card__media">
+        {% if svc.image_url %}
+          <img src="{{ svc.image_url }}" alt="{{ svc.name }}" class="service-card__img">
+        {% else %}
+          <div class="service-card__placeholder">{{ icon('bolt', 48) }}</div>
+        {% endif %}
+      </div>
+      <div class="service-card__body">
+        <h3 class="service-card__name">{{ svc.name }}</h3>
+        {% if svc.description %}
+          <p class="service-card__desc">{{ svc.description }}</p>
+        {% endif %}
+        <div class="service-card__footer">
+          <span class="badge {% if svc.stock_count > 0 %}badge--green{% else %}badge--red{% endif %}">
+            {{ svc.stock_count }} en stock
+          </span>
+          <span class="service-card__cta">Gen →</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">{{ icon('empty', 56) }}</div>
+    <h3>Aucun service disponible</h3>
+    <p>Les services seront ajoutés prochainement. Revenez bientôt !</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

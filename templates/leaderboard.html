@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Classement — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <div class="page-header">
+    <h1 class="page-title" style="display:flex;align-items:center;gap:.6rem;">{{ icon('trophy', 32) }} Classement des générateurs</h1>
+    <p class="page-sub">Les meilleurs générateurs de la communauté ProaltsGen.</p>
+  </div>
+
+  {% if leaderboard %}
+  <div class="leaderboard">
+    {% for entry in leaderboard %}
+    <div class="lb-item {% if loop.index <= 3 %}lb-item--top{{ loop.index }}{% endif %}">
+      <div class="lb-rank">
+        {% if loop.index == 1 %}
+          {{ icon('crown', 32) }}
+        {% elif loop.index == 2 %}
+          {{ icon('silver', 32) }}
+        {% elif loop.index == 3 %}
+          {{ icon('bronze', 32) }}
+        {% else %}
+          <span class="lb-num">#{{ loop.index }}</span>
+        {% endif %}
+      </div>
+      <img
+        src="{% if entry.avatar %}https://cdn.discordapp.com/avatars/{{ entry.discord_id }}/{{ entry.avatar }}.png?size=64{% else %}https://cdn.discordapp.com/embed/avatars/{{ (entry.discord_id | int) % 5 }}.png{% endif %}"
+        alt="{{ entry.username }}"
+        class="lb-avatar">
+      <div class="lb-info">
+        <span class="lb-name">{{ entry.username }}</span>
+      </div>
+      <div class="lb-score">
+        <span class="lb-count">{{ entry.gen_count }}</span>
+        <span class="lb-label">gen{{ 's' if entry.gen_count != 1 }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">{{ icon('trophy', 56) }}</div>
+    <h3>Aucun générateur pour l'instant</h3>
+    <p>Soyez le premier à générer un compte et apparaître dans le classement !</p>
+    {% if session.user %}
+      <a href="{{ url_for('services') }}" class="btn btn-primary">Générer maintenant</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="btn btn-primary">Se connecter</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

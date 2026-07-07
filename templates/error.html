@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Erreur {{ code }} — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section" style="text-align:center;padding:6rem 1rem;">
+  <div class="error-code gradient-text">{{ code }}</div>
+  <h2 class="error-msg">{{ message }}</h2>
+  <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg" style="margin-top:2rem">
+    Retour à l'accueil
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,181 @@
+2026-06-28T20:31:44.771403026Z [err]  2026-06-28 20:31:44  INFO      bot                   [INIT] Verification des variables d'environnement...
+2026-06-28T20:31:44.771406566Z [err]  2026-06-28 20:31:44  INFO      bot                   [INIT] DISCORD_TOKEN     : MTUxNzkxMT...T2SU4 (masque)
+2026-06-28T20:31:44.771409936Z [err]  2026-06-28 20:31:44  INFO      bot                   [INIT] DATABASE_URL      : definie
+2026-06-28T20:31:44.771413296Z [err]  2026-06-28 20:31:44  INFO      bot                   [INIT] Demarrage du bot...
+2026-06-28T20:31:44.771418196Z [err]  2026-06-28 20:31:44  WARNING   discord.client        PyNaCl is not installed, voice will NOT be supported
+2026-06-28T20:31:44.771423366Z [err]  2026-06-28 20:31:44  WARNING   discord.client        davey is not installed, voice will NOT be supported
+2026-06-28T20:31:44.771428436Z [err]  2026-06-28 20:31:44  WARNING   discord.ext.commands.bot  Privileged message content intent is missing, commands may not work as expected.
+2026-06-28T20:31:44.796588914Z [err]  2026-06-28 20:31:44  INFO      bot                   ============================================================
+2026-06-28T20:31:44.796594173Z [err]  2026-06-28 20:31:44  INFO      bot                   Demarrage du bot Gen
+2026-06-28T20:31:44.796598233Z [err]  2026-06-28 20:31:44  INFO      bot                   ============================================================
+2026-06-28T20:31:44.796601543Z [err]  2026-06-28 20:31:44  INFO      bot                   [DB] Connexion a PostgreSQL -> ep-hidden-cloud-ahfsm95i-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+2026-06-28T20:31:45.119937259Z [inf]  Starting Container
+2026-06-28T20:31:45.798583153Z [err]  2026-06-28 20:31:45  INFO      database              Pool asyncpg cree (min=2, max=10, timeout=30s)
+2026-06-28T20:31:45.798588353Z [err]  2026-06-28 20:31:45  INFO      bot                   [DB] Pool de connexions cree avec succes
+2026-06-28T20:31:45.798592663Z [err]  2026-06-28 20:31:45  INFO      bot                   [DB] Application des migrations SQL...
+2026-06-28T20:31:45.798596903Z [err]  2026-06-28 20:31:45  INFO      database              Application de la migration : 001_initial.sql
+2026-06-28T20:31:45.798600543Z [err]  2026-06-28 20:31:45  INFO      database              Migration reussie : 001_initial.sql
+2026-06-28T20:31:45.798604223Z [err]  2026-06-28 20:31:45  INFO      database              Application de la migration : 002_history.sql
+2026-06-28T20:31:45.807750424Z [err]  2026-06-28 20:31:45  INFO      database              Migration reussie : 002_history.sql
+2026-06-28T20:31:45.807755154Z [err]  2026-06-28 20:31:45  INFO      database              Application de la migration : 003_service_cooldown.sql
+2026-06-28T20:31:45.874537922Z [err]  2026-06-28 20:31:45  INFO      database              Migration reussie : 003_service_cooldown.sql
+2026-06-28T20:31:45.954936132Z [err]  2026-06-28 20:31:45  INFO      bot                   [COGS] OK  cogs.restock
+2026-06-28T20:31:45.954944662Z [err]  2026-06-28 20:31:45  INFO      bot                   [COGS] OK  cogs.config
+2026-06-28T20:31:45.954975391Z [err]  2026-06-28 20:31:45  INFO      database              3 migration(s) appliquee(s) au total
+2026-06-28T20:31:45.954979551Z [err]  2026-06-28 20:31:45  INFO      bot                   [DB] Migration appliquee : 001_initial.sql
+2026-06-28T20:31:45.954985131Z [err]  2026-06-28 20:31:45  INFO      bot                   [DB] Migration appliquee : 002_history.sql
+2026-06-28T20:31:45.954988791Z [err]  2026-06-28 20:31:45  INFO      bot                   [DB] Migration appliquee : 003_service_cooldown.sql
+2026-06-28T20:31:45.954992601Z [err]  2026-06-28 20:31:45  INFO      bot                   [COGS] Chargement des extensions...
+2026-06-28T20:31:45.954997731Z [err]  2026-06-28 20:31:45  INFO      bot                   [COGS] OK  cogs.services
+2026-06-28T20:31:45.955844152Z [err]  2026-06-28 20:31:45  INFO      bot                   [COGS] OK  cogs.gen
+2026-06-28T20:31:45.955847092Z [err]  2026-06-28 20:31:45  INFO      bot                   [SLASH] Synchronisation des commandes slash (global)...
+2026-06-28T20:31:46.146993444Z [err]  2026-06-28 20:31:46  INFO      bot                   [SLASH] 5 commande(s) globale(s) : /create, /delete, /restock, /erestock, /config
+2026-06-28T20:31:48.808206326Z [err]  2026-06-28 20:31:48  INFO      bot                   ============================================================
+2026-06-28T20:31:48.808211606Z [err]  2026-06-28 20:31:48  INFO      bot                   [BOT]  Connecte en tant que : Proalts Gen#4749
+2026-06-28T20:31:48.808216856Z [err]  2026-06-28 20:31:48  INFO      bot                   [BOT]  ID du bot            : 1517911780020715622
+2026-06-28T20:31:48.808221756Z [err]  2026-06-28 20:31:48  INFO      bot                   [BOT]  Serveurs rejoints     : 1
+2026-06-28T20:31:48.808227146Z [err]  2026-06-28 20:31:48  INFO      bot                   [BOT]    -> PoalsG3n #BACK (ID: 1517892677574590606, membres: 66)
+2026-06-28T20:31:48.809404993Z [err]  2026-06-28 20:31:48  INFO      bot                   [SLASH] Sync guilde 'PoalsG3n #BACK' -> 5 commande(s)
+2026-06-28T20:31:48.809408343Z [err]  2026-06-28 20:31:48  INFO      bot                   [BOT]  Latence gateway       : 68.8 ms
+2026-06-28T20:31:48.809411233Z [err]  2026-06-28 20:31:48  INFO      bot                   ============================================================
+2026-06-28T20:31:48.809413833Z [err]  2026-06-28 20:31:48  INFO      bot                   [BOT]  Statut mis a jour
+2026-06-28T20:32:58.809703662Z [err]  2026-06-28 20:32:58  INFO      database              [ACCOUNTS] 8 compte(s) ajoutes au service 17 (doublons ignores)
+2026-06-28T20:32:58.809706682Z [err]  2026-06-28 20:32:58  INFO      database              [RESTOCK] Historique #55 enregistre : 8 comptes par 'gros4k' (source=discord, guild=1517892677574590606)
+2026-06-28T20:33:18.802853325Z [err]  2026-06-28 20:33:12  INFO      database              [GEN] Compte distribue depuis service 17 -> amir4789@hotmail.com
+2026-06-28T20:33:18.802858355Z [err]  2026-06-28 20:33:13  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=11> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:33:18.802863565Z [err]  Traceback (most recent call last):
+2026-06-28T20:33:18.802869425Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:33:18.802880035Z [err]      await item.callback(interaction)
+2026-06-28T20:33:18.802885645Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:33:18.802891695Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:33:18.802896785Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:33:18.802901555Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:33:27.670178888Z [err]  2026-06-28 20:33:27  INFO      database              [GEN] Compte distribue depuis service 17 -> angela.lenormand1@hotmail.com
+2026-06-28T20:33:27.935978833Z [err]  2026-06-28 20:33:27  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=11> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:33:27.935983393Z [err]  Traceback (most recent call last):
+2026-06-28T20:33:27.935986833Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:33:27.935989913Z [err]      await item.callback(interaction)
+2026-06-28T20:33:27.935993403Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:33:27.935996383Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:33:27.935999353Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:33:27.936003173Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:34:47.902588384Z [err]  2026-06-28 20:34:38  INFO      database              [SERVICE] Cree : 'Deezer Premuim' (guild=1517892677574590606, emoji=None)
+2026-06-28T20:34:52.502029246Z [err]  2026-06-28 20:34:52  INFO      database              [ACCOUNTS] 145 compte(s) ajoutes au service 18 (doublons ignores)
+2026-06-28T20:34:53.045243269Z [err]  2026-06-28 20:34:53  INFO      database              [RESTOCK] Historique #56 enregistre : 145 comptes par 'gros4k' (source=discord, guild=1517892677574590606)
+2026-06-28T20:35:33.166697127Z [err]  2026-06-28 20:35:28  INFO      database              [GEN] Compte distribue depuis service 11 -> CBrooks781@gmail.com
+2026-06-28T20:35:33.166708827Z [err]  2026-06-28 20:35:28  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=12> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Disney +' emoji=None row=0 sku_id=None id=6>
+2026-06-28T20:35:33.166714877Z [err]  Traceback (most recent call last):
+2026-06-28T20:35:33.166720767Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:35:33.166725126Z [err]      await item.callback(interaction)
+2026-06-28T20:35:33.166729726Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:35:33.166735136Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:35:33.166738636Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:35:33.166744426Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:35:33.166747926Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:35:33.166753106Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:35:33.166757216Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:35:33.166762506Z [err]  2026-06-28 20:35:28  INFO      database              [GEN] Compte distribue depuis service 17 -> marijeus@outlook.com
+2026-06-28T20:35:33.166767986Z [err]  2026-06-28 20:35:29  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=12> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=15>
+2026-06-28T20:35:33.166773116Z [err]  Traceback (most recent call last):
+2026-06-28T20:35:33.166777986Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:35:33.166783456Z [err]      await item.callback(interaction)
+2026-06-28T20:35:33.166788536Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:36:03.179541360Z [err]  2026-06-28 20:35:59  INFO      database              [SERVICE] Cree : 'Supercell' (guild=1517892677574590606, emoji=None)
+2026-06-28T20:36:23.158797639Z [err]  2026-06-28 20:36:14  INFO      database              [ACCOUNTS] 121 compte(s) ajoutes au service 19 (doublons ignores)
+2026-06-28T20:36:23.158800999Z [err]  2026-06-28 20:36:14  INFO      database              [RESTOCK] Historique #57 enregistre : 121 comptes par 'gros4k' (source=discord, guild=1517892677574590606)
+2026-06-28T20:36:43.211714319Z [err]  2026-06-28 20:36:35  INFO      database              [GEN] Compte distribue depuis service 17 -> muhammetguneysu01@hotmail.com
+2026-06-28T20:36:43.211719729Z [err]  2026-06-28 20:36:35  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=13> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:36:43.211723739Z [err]  Traceback (most recent call last):
+2026-06-28T20:36:43.211728419Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:36:43.211732559Z [err]      await item.callback(interaction)
+2026-06-28T20:36:43.211736489Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:36:43.211740619Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:36:43.211744949Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:36:43.211753009Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:37:43.695198217Z [err]  2026-06-28 20:37:36  INFO      database              [SERVICE] Cree : 'Dazn' (guild=1517892677574590606, emoji=None)
+2026-06-28T20:37:43.695204137Z [err]  2026-06-28 20:37:36  INFO      database              [GEN] Compte distribue depuis service 17 -> weksderkyan@hotmail.com
+2026-06-28T20:37:43.695208747Z [err]  2026-06-28 20:37:36  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=13> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:37:43.695212207Z [err]  Traceback (most recent call last):
+2026-06-28T20:37:43.695216417Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:37:43.695222897Z [err]      await item.callback(interaction)
+2026-06-28T20:37:43.695226557Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:37:43.695230237Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:37:43.695237876Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:37:43.695241326Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:37:43.695244596Z [err]  2026-06-28 20:37:43  INFO      database              [GEN] Compte distribue depuis service 18 -> fredykakou@hotmail.fr
+2026-06-28T20:37:43.695248186Z [err]  2026-06-28 20:37:43  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Deezer Premuim' emoji=None row=0 sku_id=None id=None>
+2026-06-28T20:37:43.695251506Z [err]  Traceback (most recent call last):
+2026-06-28T20:37:43.695255246Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:37:43.696614342Z [err]      await item.callback(interaction)
+2026-06-28T20:37:43.696620972Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:37:43.696626582Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:37:43.696631891Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:37:43.696637191Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:38:03.564239375Z [err]  2026-06-28 20:37:54  INFO      database              [ACCOUNTS] 16 compte(s) ajoutes au service 20 (doublons ignores)
+2026-06-28T20:38:03.564243355Z [err]  2026-06-28 20:37:54  INFO      database              [RESTOCK] Historique #58 enregistre : 16 comptes par 'gros4k' (source=discord, guild=1517892677574590606)
+2026-06-28T20:38:03.564247015Z [err]  2026-06-28 20:38:02  INFO      database              [ACCOUNTS] 23 compte(s) ajoutes au service 20 (doublons ignores)
+2026-06-28T20:38:03.564250485Z [err]  2026-06-28 20:38:02  INFO      database              [RESTOCK] Historique #59 enregistre : 23 comptes par 'gros4k' (source=discord, guild=1517892677574590606)
+2026-06-28T20:38:23.558282075Z [err]  2026-06-28 20:38:21  INFO      database              [GEN] Compte distribue depuis service 13 -> shiori1026.xxx@ezweb.ne.jp
+2026-06-28T20:38:23.558285675Z [err]  2026-06-28 20:38:21  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Netflix' emoji=None row=1 sku_id=None id=None>
+2026-06-28T20:38:23.558289075Z [err]  Traceback (most recent call last):
+2026-06-28T20:38:23.558292685Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:38:23.558296335Z [err]      await item.callback(interaction)
+2026-06-28T20:38:23.558300325Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:38:23.558303485Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:38:23.558307114Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:38:23.558310804Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:39:03.761690483Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:39:03.761695893Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:39:03.761700993Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:39:03.761704873Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:39:03.761737733Z [err]  2026-06-28 20:38:56  INFO      database              [GEN] Compte distribue depuis service 17 -> mraccio1@outlook.com
+2026-06-28T20:39:03.761743923Z [err]  2026-06-28 20:38:57  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:39:03.761748443Z [err]  Traceback (most recent call last):
+2026-06-28T20:39:03.761752392Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:39:03.761759582Z [err]      await item.callback(interaction)
+2026-06-28T20:39:53.601254000Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:39:53.601273409Z [err]  2026-06-28 20:39:48  INFO      database              [GEN] Compte distribue depuis service 11 -> Reachsandy@hotmail.com
+2026-06-28T20:39:53.601278159Z [err]  2026-06-28 20:39:48  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Disney +' emoji=None row=1 sku_id=None id=None>
+2026-06-28T20:39:53.601281919Z [err]  Traceback (most recent call last):
+2026-06-28T20:39:53.601287289Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:39:53.601289229Z [err]      await item.callback(interaction)
+2026-06-28T20:39:53.601299529Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:39:53.601304199Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:39:53.601309049Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:40:13.678760122Z [err]  2026-06-28 20:40:07  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Crunchyroll' emoji=None row=0 sku_id=None id=None>
+2026-06-28T20:40:13.678771022Z [err]  Traceback (most recent call last):
+2026-06-28T20:40:13.678777022Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:40:13.678783002Z [err]      await item.callback(interaction)
+2026-06-28T20:40:13.678787712Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:40:13.678792962Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:40:13.678797832Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:40:13.678802732Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:40:13.678896011Z [err]  2026-06-28 20:40:07  INFO      database              [GEN] Compte distribue depuis service 2 -> krmnmarkz270914@gmail.com
+2026-06-28T20:40:33.711069297Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:40:33.711074987Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:40:33.711079367Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:40:33.711120036Z [err]  2026-06-28 20:40:23  INFO      database              [CONFIG] Mise a jour guild 1517892677574590606 : gen_message_id=1520891637822132249
+2026-06-28T20:40:33.711123776Z [err]  2026-06-28 20:40:30  INFO      database              [GEN] Compte distribue depuis service 17 -> yush.inder@hotmail.com
+2026-06-28T20:40:33.711127826Z [err]  2026-06-28 20:40:30  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:40:33.711131546Z [err]  Traceback (most recent call last):
+2026-06-28T20:40:33.711135156Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:40:33.711139206Z [err]      await item.callback(interaction)
+2026-06-28T20:40:33.711143046Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:40:35.287198380Z [err]  2026-06-28 20:40:35  INFO      database              [GEN] Compte distribue depuis service 17 -> www.kahos@hotmail.com
+2026-06-28T20:40:35.563393074Z [err]  2026-06-28 20:40:35  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Xbox Game passe' emoji=None row=2 sku_id=None id=None>
+2026-06-28T20:40:35.563400044Z [err]  Traceback (most recent call last):
+2026-06-28T20:40:35.563404414Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:40:35.563408644Z [err]      await item.callback(interaction)
+2026-06-28T20:40:35.563412914Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:40:35.563418134Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:40:35.563421803Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:40:35.563426253Z [err]  NameError: name 'cooldown_minutes' is not defined
+2026-06-28T20:42:55.975591298Z [err]  2026-06-28 20:42:54  INFO      database              [GEN] Compte distribue depuis service 11 -> Surendran.prasanth@gmail.com
+2026-06-28T20:42:55.975596118Z [err]  2026-06-28 20:42:54  ERROR     discord.ui.view       Ignoring exception in view <GenView timeout=None children=14> for item <GenButton style=<ButtonStyle.secondary: 2> url=None disabled=False label='Disney +' emoji=None row=1 sku_id=None id=None>
+2026-06-28T20:42:55.975601138Z [err]  Traceback (most recent call last):
+2026-06-28T20:42:55.975606038Z [err]    File "/opt/venv/lib/python3.12/site-packages/discord/ui/view.py", line 598, in _scheduled_task
+2026-06-28T20:42:55.975610118Z [err]      await item.callback(interaction)
+2026-06-28T20:42:55.975614408Z [err]    File "/app/cogs/gen.py", line 135, in callback
+2026-06-28T20:42:55.975618327Z [err]      embed.set_footer(text=f"Ne partagez pas ce compte. Prochain gen dans {cooldown_minutes} min.")
+2026-06-28T20:42:55.975625137Z [err]                                                                            ^^^^^^^^^^^^^^^^
+2026-06-28T20:42:55.975628577Z [err]  NameError: name 'cooldown_minutes' is not defined

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Owner — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Panel Owner</h1>
+      <p class="page-sub">Configuration des cooldowns par rôle. Guild ID : <code>{{ guild_id }}</code></p>
+    </div>
+  </div>
+
+  <div class="owner-layout">
+    <!-- Add cooldown form -->
+    <div class="form-card">
+      <h2 class="form-title" style="font-size:1.2rem">Définir un cooldown par rôle</h2>
+      <form method="POST" action="{{ url_for('owner_set_cooldown') }}" class="form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="form-group">
+          <label for="role_id" class="form-label">ID du rôle Discord</label>
+          <input type="text" id="role_id" name="role_id" class="form-input"
+                 placeholder="Ex: 1517909085453029487" required pattern="\d+">
+          <p class="form-hint">Copiez l'ID du rôle depuis les paramètres Discord (Mode développeur requis).</p>
+        </div>
+        <div class="form-group">
+          <label for="seconds" class="form-label">Cooldown (en secondes)</label>
+          <input type="number" id="seconds" name="seconds" class="form-input"
+                 placeholder="Ex: 3600" min="0" required>
+          <p class="form-hint">0 = pas de cooldown pour ce rôle.</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </form>
+    </div>
+
+    <!-- Current cooldowns -->
+    <div>
+      <h2 class="section-title" style="margin-bottom:1rem">Cooldowns configurés</h2>
+      {% if cooldowns %}
+      <div class="cooldown-list">
+        {% for cd in cooldowns %}
+        <div class="cooldown-item">
+          <div class="cooldown-item__info">
+            <span class="cooldown-item__role">Rôle <code>{{ cd.role_id }}</code></span>
+            <span class="badge badge--purple">{{ cd.cooldown_minutes }}s</span>
+          </div>
+          <form method="POST" action="{{ url_for('owner_delete_cooldown', role_id=cd.role_id) }}"
+                onsubmit="return confirm('Supprimer ce cooldown ?')">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="btn btn-sm btn-danger">{{ icon('trash', 14) }} Supprimer</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state" style="padding:2rem">
+        <p class="text-muted">Aucun cooldown de rôle configuré.<br>Le cooldown par défaut défini dans le bot Discord s'applique.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

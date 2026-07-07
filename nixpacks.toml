@@ -1,0 +1,2 @@
+# Laisser nixpacks auto-detecter Python et pip depuis requirements.txt
+# Le Procfile gere les commandes de demarrage (web/worker)

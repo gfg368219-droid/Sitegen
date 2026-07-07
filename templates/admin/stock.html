@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Ajouter du stock — {{ service.name }}{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Retour au panel admin</a>
+
+  <div class="form-card">
+    <div class="stock-header">
+      {% if service.image_url %}
+        <img src="{{ service.image_url }}" alt="{{ service.name }}" class="stock-header__img">
+      {% endif %}
+      <div>
+        <h1 class="form-title">Ajouter du stock</h1>
+        <p class="text-muted">Service : <strong>{{ service.name }}</strong> — {{ service.stock_count }} compte(s) actuel(s)</p>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+      <div class="form-group">
+        <label class="form-label">Type de format *</label>
+        <div class="radio-group">
+          <label class="radio-card">
+            <input type="radio" name="account_type" value="email" checked>
+            <div class="radio-card__body">
+              <span class="radio-card__title">email:password</span>
+              <span class="radio-card__desc">Identifiant avec @ (ex: user@gmail.com:pass123)</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="account_type" value="user">
+            <div class="radio-card__body">
+              <span class="radio-card__title">user:password</span>
+              <span class="radio-card__desc">Identifiant sans @ (ex: MonPseudo:pass123)</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="file" class="form-label">Fichier .txt *</label>
+        <div class="file-drop" id="fileDrop">
+          <input type="file" id="file" name="file" accept=".txt" required class="file-input" onchange="onFile(this)">
+          <div class="file-drop__content" id="fileLabel">
+            {{ icon('file', 36) }}
+            <span>Glissez un fichier .txt ici ou cliquez pour parcourir</span>
+          </div>
+        </div>
+        <div class="form-hint">
+          <strong>Règles de parsing :</strong>
+          Un compte par ligne · Les lignes avec http/https sont ignorées · Si <code>|</code> est présent, seule la partie avant est prise · Le format doit correspondre au type choisi
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-ghost">Annuler</a>
+        <button type="submit" class="btn btn-primary">{{ icon('box', 16) }} Ajouter au stock</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function onFile(input) {
+  const label = document.getElementById('fileLabel');
+  if (input.files.length > 0) {
+    label.innerHTML = {{ icon('check', 32) | tojson }} + '<span>' + input.files[0].name + '</span>';
+  }
+}
+const drop = document.getElementById('fileDrop');
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragging'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('dragging'));
+drop.addEventListener('drop', e => {
+  e.preventDefault(); drop.classList.remove('dragging');
+  const dt = e.dataTransfer;
+  if (dt.files.length) {
+    const fileInput = document.getElementById('file');
+    fileInput.files = dt.files;
+    onFile(fileInput);
+  }
+});
+</script>
+{% endblock %}

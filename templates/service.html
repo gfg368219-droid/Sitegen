@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}{{ service.name }} — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <a href="{{ url_for('services') }}" class="back-link">← Retour aux services</a>
+
+  <div class="service-detail">
+    <!-- Media -->
+    {% if service.image_url %}
+    <div class="service-detail__media">
+      <img src="{{ service.image_url }}" alt="{{ service.name }}" class="service-detail__img">
+    </div>
+    {% endif %}
+
+    <!-- Info -->
+    <div class="service-detail__info">
+      <h1 class="service-detail__title">{{ service.name }}</h1>
+      {% if service.description %}
+        <p class="service-detail__desc">{{ service.description }}</p>
+      {% endif %}
+      <div class="service-detail__meta">
+        <span class="badge {% if service.stock_count > 0 %}badge--green{% else %}badge--red{% endif %}">
+          {{ service.stock_count }} compte{{ 's' if service.stock_count != 1 }} en stock
+        </span>
+      </div>
+
+      <!-- Gen result -->
+      {% if gen_result %}
+      <div class="gen-result">
+        <div class="gen-result__header">
+          {{ icon('check', 20) }}
+          <span>Compte généré — {{ gen_result.service_name }}</span>
+        </div>
+        <div class="gen-result__credential" id="credentialBox">{{ gen_result.credential }}</div>
+        <button class="btn btn-primary" onclick="copyCredential()">
+          {{ icon('copy', 16) }}
+          <span id="copyText">Copier</span>
+        </button>
+        <p class="gen-result__warn">{{ icon('warning', 16) }} Ne partagez pas ce compte. Il vous est réservé.</p>
+      </div>
+      {% endif %}
+
+      <!-- Cooldown or Gen button -->
+      {% if cooldown_info.remaining > 0 %}
+      <div class="cooldown-box">
+        <div class="cooldown-box__label">Cooldown actif</div>
+        <div class="cooldown-timer" id="timer" data-remaining="{{ cooldown_info.remaining | int }}">
+          {{ cooldown_info.remaining | fmt_cooldown }}
+        </div>
+        <p class="cooldown-box__hint">Revenez dans <span id="timerText">{{ cooldown_info.remaining | fmt_cooldown }}</span> pour générer à nouveau.</p>
+      </div>
+      {% elif service.stock_count == 0 %}
+      <button class="btn btn-primary btn-lg" disabled>Stock épuisé</button>
+      {% else %}
+      <form method="POST" action="{{ url_for('gen_account', service_id=service.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button type="submit" class="btn btn-primary btn-lg">
+          {{ icon('gen', 20) }} Générer un compte
+        </button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Copy credential to clipboard
+function copyCredential() {
+  const text = document.getElementById('credentialBox').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyText');
+    btn.innerHTML = '{{ icon("check", 16) | string | replace("'", "\\'") }} Copié !';
+    setTimeout(() => btn.innerHTML = '{{ icon("copy", 16) | string | replace("'", "\\'") }} Copier', 2000);
+  });
+}
+
+// Cooldown countdown timer
+const timerEl = document.getElementById('timer');
+const timerText = document.getElementById('timerText');
+if (timerEl) {
+  let remaining = parseInt(timerEl.dataset.remaining, 10);
+  function fmtSec(s) {
+    if (s < 60) return s + 's';
+    const m = Math.floor(s / 60), sec = s % 60;
+    if (m >= 60) { const h = Math.floor(m/60); return h+'h '+(m%60)+'m'; }
+    return sec ? m+'m '+sec+'s' : m+'m';
+  }
+  const tick = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(tick);
+      location.reload();
+      return;
+    }
+    const txt = fmtSec(remaining);
+    timerEl.textContent = txt;
+    if (timerText) timerText.textContent = txt;
+  }, 1000);
+}
+</script>
+{% endblock %}

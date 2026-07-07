@@ -1,0 +1,48 @@
+modules = ["python-3.11"]
+[agent]
+expertMode = true
+stack = "FLASK_VANILLA_JS"
+
+[nix]
+channel = "stable-25_05"
+packages = ["openssl", "postgresql"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "ProaltsGen"
+
+[[workflows.workflow]]
+name = "ProaltsGen"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python run.py"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[userenv]
+
+[userenv.shared]
+DISCORD_TOKEN = "MTUxNzkxMTc4MDAyMDcxNTYyMg.GGBerx.Uhms1B_LnIXYNiTOTUR2QE71BB9TFcUsWT2SU4"
+DISCORD_CLIENT_ID = "1523987228227932201"
+GUILD_ID = "1517892677574590606"
+DISCORD_CLIENT_SECRET = "8I8BsIyQTnHv-KBrR8s1UtxFj8fGO_vG"
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]

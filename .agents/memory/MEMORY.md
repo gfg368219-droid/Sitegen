@@ -1,0 +1,1 @@
+- [ProaltsGen web setup](proalts-web-setup.md) — Flask web app + Discord bot combined runner; OAuth needs DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI, GUILD_ID env vars to work.

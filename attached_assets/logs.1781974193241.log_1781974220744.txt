@@ -1,0 +1,71 @@
+2026-06-20T16:48:55.863558029Z [inf]  scheduling build on Metal builder "production-builderv3-us-west1-shm0"
+2026-06-20T16:48:56.796639178Z [inf]  unpacking archive
+2026-06-20T16:48:56.871611220Z [inf]  using build driver nixpacks-v1.41.0
+2026-06-20T16:48:56.898399468Z [inf]  uploading snapshot
+2026-06-20T16:48:56.936934915Z [inf]  
+2026-06-20T16:48:56.936938842Z [inf]  ╔═══════════════ Nixpacks v1.41.0 ══════════════╗
+2026-06-20T16:48:56.936953348Z [inf]  ║ setup      │ python311, python311Packages.pip ║
+2026-06-20T16:48:56.936954878Z [inf]  ║───────────────────────────────────────────────║
+2026-06-20T16:48:56.936956080Z [inf]  ║ install    │ pip install -r requirements.txt  ║
+2026-06-20T16:48:56.936957270Z [inf]  ║───────────────────────────────────────────────║
+2026-06-20T16:48:56.936957861Z [inf]  ║ start      │ python dashboard.py              ║
+2026-06-20T16:48:56.936958672Z [inf]  ╚═══════════════════════════════════════════════╝
+2026-06-20T16:48:56.936959230Z [inf]  
+2026-06-20T16:48:56.937494060Z [inf]  
+2026-06-20T16:48:56.937497126Z [inf]  Saved output to:
+2026-06-20T16:48:56.937498066Z [inf]    snapshot-target-unpack
+2026-06-20T16:48:57.001750617Z [inf]  [internal] load build definition from Dockerfile
+2026-06-20T16:48:57.001753788Z [inf]  [internal] load build definition from Dockerfile
+2026-06-20T16:48:57.001756733Z [inf]  [internal] load build definition from Dockerfile
+2026-06-20T16:48:57.001909132Z [inf]  [internal] load build definition from Dockerfile
+2026-06-20T16:48:57.028529481Z [inf]  [internal] load build definition from Dockerfile
+2026-06-20T16:48:57.036189885Z [inf]  [internal] load metadata for ghcr.io/railwayapp/nixpacks:ubuntu-1745885067
+2026-06-20T16:48:57.527525865Z [inf]  [internal] load metadata for ghcr.io/railwayapp/nixpacks:ubuntu-1745885067
+2026-06-20T16:48:57.527867480Z [inf]  [internal] load .dockerignore
+2026-06-20T16:48:57.527868906Z [inf]  [internal] load .dockerignore
+2026-06-20T16:48:57.527939278Z [inf]  [internal] load .dockerignore
+2026-06-20T16:48:57.528035777Z [inf]  [internal] load .dockerignore
+2026-06-20T16:48:57.556093633Z [inf]  [internal] load .dockerignore
+2026-06-20T16:48:57.562407914Z [wrn]  SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "DISCORD_TOKEN") (line 11)(https://docs.docker.com/go/dockerfile/rule/secrets-used-in-arg-or-env/)
+ details: Sensitive data should not be used in the ARG or ENV commands
+
+2026-06-20T16:48:57.562789594Z [wrn]  SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "DISCORD_TOKEN") (line 12)(https://docs.docker.com/go/dockerfile/rule/secrets-used-in-arg-or-env/)
+ details: Sensitive data should not be used in the ARG or ENV commands
+
+2026-06-20T16:48:57.562926541Z [wrn]  UndefinedVar: Usage of undefined variable '$NIXPACKS_PATH' (line 18)(https://docs.docker.com/go/dockerfile/rule/undefined-var/)
+ details: Variables should be defined before their use
+
+2026-06-20T16:48:57.564996804Z [inf]  [stage-0 8/8] COPY . /app
+2026-06-20T16:48:57.564997338Z [inf]  [stage-0 7/8] RUN printf '\nPATH=/opt/venv/bin:$PATH' >> /root/.profile
+2026-06-20T16:48:57.564997806Z [inf]  [stage-0 6/8] RUN --mount=type=cache,id=s/2c56c782-d77f-4eaf-8dc9-1606bc5a9745-/root/cache/pip,target=/root/.cache/pip pip install -r requirements.txt
+2026-06-20T16:48:57.564998303Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-06-20T16:48:57.564999040Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-bc8f8d1be58e8c8383e683a06e1e1e57893fff87.nix && nix-collect-garbage -d
+2026-06-20T16:48:57.564999539Z [inf]  [stage-0 3/8] COPY .nixpacks/nixpkgs-bc8f8d1be58e8c8383e683a06e1e1e57893fff87.nix .nixpacks/nixpkgs-bc8f8d1be58e8c8383e683a06e1e1e57893fff87.nix
+2026-06-20T16:48:57.565000119Z [inf]  [internal] load build context
+2026-06-20T16:48:57.565000979Z [inf]  [stage-0 2/8] WORKDIR /app/
+2026-06-20T16:48:57.565001369Z [inf]  [stage-0 1/8] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-06-20T16:48:57.565200369Z [inf]  [stage-0 1/8] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-06-20T16:48:57.565201369Z [inf]  [internal] load build context
+2026-06-20T16:48:57.565359526Z [inf]  [internal] load build context
+2026-06-20T16:48:57.575375354Z [inf]  [stage-0 1/8] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-06-20T16:48:57.594463669Z [inf]  [internal] load build context
+2026-06-20T16:48:57.606204675Z [inf]  [stage-0 2/8] WORKDIR /app/
+2026-06-20T16:48:57.606206110Z [inf]  [stage-0 3/8] COPY .nixpacks/nixpkgs-bc8f8d1be58e8c8383e683a06e1e1e57893fff87.nix .nixpacks/nixpkgs-bc8f8d1be58e8c8383e683a06e1e1e57893fff87.nix
+2026-06-20T16:48:57.606206529Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-bc8f8d1be58e8c8383e683a06e1e1e57893fff87.nix && nix-collect-garbage -d
+2026-06-20T16:48:57.606209214Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-06-20T16:48:57.663427668Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-06-20T16:48:57.669891897Z [inf]  [stage-0 6/8] RUN --mount=type=cache,id=s/2c56c782-d77f-4eaf-8dc9-1606bc5a9745-/root/cache/pip,target=/root/.cache/pip pip install -r requirements.txt
+2026-06-20T16:48:58.907181095Z [inf]  error: externally-managed-environment
+
+× This environment is externally managed
+╰─> This command has been disabled as it tries to modify the immutable
+    `/nix/store` filesystem.
+    
+    To use Python with Nix and nixpkgs, have a look at the online documentation:
+    <https://nixos.org/manual/nixpkgs/stable/#python>.
+
+note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+hint: See PEP 668 for the detailed specification.
+
+2026-06-20T16:48:59.169779715Z [err]  [stage-0 6/8] RUN --mount=type=cache,id=s/2c56c782-d77f-4eaf-8dc9-1606bc5a9745-/root/cache/pip,target=/root/.cache/pip pip install -r requirements.txt
+2026-06-20T16:48:59.211633494Z [err]  Build Failed: build daemon returned an error < failed to solve: process "/bin/bash -ol pipefail -c pip install -r requirements.txt" did not complete successfully: exit code: 1 >
