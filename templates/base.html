@@ -19,7 +19,12 @@
       <span class="nav-title">ProaltsGen</span>
     </a>
 
-    <div class="nav-links">
+    <!-- Bouton hamburger (mobile) -->
+    <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
       {% if session.user %}
         <a href="{{ url_for('services') }}" class="nav-link">Services</a>
         <a href="{{ url_for('leaderboard') }}" class="nav-link">Classement</a>
@@ -46,6 +51,24 @@
     </div>
   </div>
 </nav>
+
+<script>
+  const burger = document.getElementById('navBurger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('nav-links--open');
+    burger.classList.toggle('nav-burger--open', open);
+    burger.setAttribute('aria-expanded', open);
+  });
+  // Fermer le menu si on clique sur un lien
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('nav-links--open');
+      burger.classList.remove('nav-burger--open');
+      burger.setAttribute('aria-expanded', false);
+    });
+  });
+</script>
 
 <main class="page">
   {% with messages = get_flashed_messages(with_categories=true) %}

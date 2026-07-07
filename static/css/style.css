@@ -325,10 +325,69 @@ code { font-family: 'Menlo', 'Consolas', monospace; font-size: .85em; background
 .error-code { font-size: 8rem; font-weight: 900; line-height: 1; }
 .error-msg  { font-size: 1.3rem; color: var(--text-muted); margin-top: .5rem; }
 
+/* ── Hamburger ───────────────────────────────────────────────────────────── */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  background: none; border: none; cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background .15s;
+}
+.nav-burger:hover { background: var(--surface); }
+.nav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .25s, opacity .25s;
+  transform-origin: center;
+}
+/* Croix quand ouvert */
+.nav-burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger--open span:nth-child(2) { opacity: 0; }
+.nav-burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .nav-links { gap: .75rem; }
-  .nav-username { display: none; }
+@media (max-width: 700px) {
+  .nav-burger { display: flex; }
+
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: rgba(7,7,15,.97);
+    border-bottom: 1px solid var(--border);
+    padding: .5rem 0;
+    z-index: 99;
+  }
+  .nav-links--open { display: flex; }
+
+  .nav-link, .nav-links .btn {
+    width: 100%;
+    padding: .85rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0;
+  }
+  .nav-link:hover { background: var(--surface); }
+
+  .nav-user {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: .75rem 1.5rem;
+    border-top: 1px solid var(--border);
+    gap: .5rem;
+  }
+  .nav-username { display: block; font-size: .95rem; }
+  .nav-links .btn { border-radius: 0; justify-content: flex-start; }
+
   .hero { padding: 4rem 1.5rem; }
   .radio-group { grid-template-columns: 1fr; }
 }
