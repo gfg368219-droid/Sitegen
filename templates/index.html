@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}ProaltsGen — Génération de comptes premium{% endblock %}
+{% block title %}ProaltsGen{% endblock %}
 
 {% block content %}
 <!-- Hero -->
@@ -10,12 +10,8 @@
     <div class="hero-badge">{{ icon('bolt', 14) }} La meilleure plateforme de génération</div>
     <h1 class="hero-title">
       Générez des comptes<br>
-      <span class="gradient-text">premium instantanément</span>
+      <span class="gradient-text">instantanément</span>
     </h1>
-    <p class="hero-desc">
-      Connectez-vous avec Discord et accédez à des centaines de comptes premium
-      pour vos services favoris en quelques secondes.
-    </p>
     <div class="hero-actions">
       {% if session.user %}
         <a href="{{ url_for('services') }}" class="btn btn-primary btn-lg">

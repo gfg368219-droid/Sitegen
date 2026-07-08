@@ -67,6 +67,8 @@ code { font-family: 'Menlo', 'Consolas', monospace; font-size: .85em; background
 .nav-link--owner { color: var(--primary); }
 
 .nav-user { display: flex; align-items: center; gap: .7rem; }
+.nav-user--link { text-decoration: none; border-radius: 8px; padding: .25rem .5rem; transition: background .15s; }
+.nav-user--link:hover { background: var(--surface); }
 .nav-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
 .nav-username { font-size: .9rem; color: var(--text-muted); }
 
@@ -390,4 +392,59 @@ code { font-family: 'Menlo', 'Consolas', monospace; font-size: .85em; background
 
   .hero { padding: 4rem 1.5rem; }
   .radio-group { grid-template-columns: 1fr; }
+  .history-item { grid-template-columns: 1fr; gap: .4rem; }
+  .history-date { display: none; }
 }
+
+/* ── Profile ─────────────────────────────────────────────────────────────── */
+.profile-header { display: flex; align-items: center; gap: 1.25rem; }
+.profile-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border); }
+
+/* ── History list ────────────────────────────────────────────────────────── */
+.history-list { display: flex; flex-direction: column; gap: .6rem; }
+.history-item {
+  display: grid;
+  grid-template-columns: 140px 1fr 130px;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .75rem 1rem;
+}
+.history-service {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-credential { display: flex; align-items: center; gap: .6rem; min-width: 0; }
+.history-code {
+  font-family: 'Courier New', monospace;
+  font-size: .82rem;
+  color: var(--text);
+  background: var(--bg);
+  padding: .25rem .55rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.history-date { font-size: .78rem; color: var(--text-muted); text-align: right; white-space: nowrap; }
+
+.copy-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .25rem .4rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex; align-items: center;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.copy-btn:hover { background: var(--surface-2, #1a1a2e); color: var(--text); border-color: var(--primary); }
+.copy-btn--copied { background: var(--success, #22c55e20); color: var(--success, #22c55e); border-color: var(--success, #22c55e); }

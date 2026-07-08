@@ -34,11 +34,11 @@
         {% if session.user.is_owner %}
           <a href="{{ url_for('owner_dashboard') }}" class="nav-link nav-link--owner">Owner</a>
         {% endif %}
-        <div class="nav-user">
+        <a href="{{ url_for('profile') }}" class="nav-user nav-user--link">
           <img src="{{ session.user.avatar }}" alt="{{ session.user.username }}" class="nav-avatar">
           <span class="nav-username">{{ session.user.username }}</span>
+        </a>
           <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-sm">Déconnexion</a>
-        </div>
       {% else %}
         <a href="{{ url_for('leaderboard') }}" class="nav-link">Classement</a>
         <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">

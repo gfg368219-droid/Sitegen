@@ -135,6 +135,8 @@ def init_db():
             ALTER TABLE accounts ADD COLUMN IF NOT EXISTS account_type TEXT NOT NULL DEFAULT 'email';
             ALTER TABLE web_gen_history ADD COLUMN IF NOT EXISTS user_id BIGINT;
             ALTER TABLE web_gen_history ADD COLUMN IF NOT EXISTS account_data TEXT;
+            ALTER TABLE web_users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT FALSE;
+            ALTER TABLE web_users ADD COLUMN IF NOT EXISTS is_owner BOOLEAN NOT NULL DEFAULT FALSE;
         """)
 
 
@@ -236,19 +238,23 @@ def get_or_create_web_user(
     avatar: str,
     access_token: str,
     refresh_token: str,
+    is_admin: bool = False,
+    is_owner: bool = False,
 ) -> dict:
     with _db() as cur:
         cur.execute(
-            """INSERT INTO web_users (discord_id, username, avatar, access_token, refresh_token, last_seen)
-               VALUES (%s, %s, %s, %s, %s, NOW())
+            """INSERT INTO web_users (discord_id, username, avatar, access_token, refresh_token, is_admin, is_owner, last_seen)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
                ON CONFLICT (discord_id) DO UPDATE SET
                    username = EXCLUDED.username,
                    avatar = EXCLUDED.avatar,
                    access_token = EXCLUDED.access_token,
                    refresh_token = EXCLUDED.refresh_token,
+                   is_admin = EXCLUDED.is_admin,
+                   is_owner = EXCLUDED.is_owner,
                    last_seen = NOW()
                RETURNING *""",
-            (discord_id, username, avatar, access_token, refresh_token),
+            (discord_id, username, avatar, access_token, refresh_token, is_admin, is_owner),
         )
         return dict(cur.fetchone())
 
@@ -276,9 +282,25 @@ def get_leaderboard(limit: int = 50) -> list[dict]:
             """SELECT discord_id, username, avatar, gen_count
                FROM web_users
                WHERE gen_count > 0
+                 AND COALESCE(is_admin, FALSE) = FALSE
+                 AND COALESCE(is_owner, FALSE) = FALSE
                ORDER BY gen_count DESC
                LIMIT %s""",
             (limit,),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
+def get_user_history(user_id: int, limit: int = 50) -> list[dict]:
+    with _db() as cur:
+        cur.execute(
+            """SELECT h.id, s.name AS service_name, h.account_data, h.created_at
+               FROM web_gen_history h
+               LEFT JOIN services s ON s.id = h.service_id
+               WHERE h.user_id = %s
+               ORDER BY h.created_at DESC
+               LIMIT %s""",
+            (user_id, limit),
         )
         return [dict(r) for r in cur.fetchall()]
 

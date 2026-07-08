@@ -491,6 +491,8 @@ def callback():
             avatar=avatar,
             access_token=access_token,
             refresh_token=refresh_token,
+            is_admin=is_admin,
+            is_owner=is_owner,
         )
 
         session["user"] = {
@@ -520,6 +522,14 @@ def logout():
 def leaderboard():
     top = web_db.get_leaderboard(50)
     return render_template("leaderboard.html", leaderboard=top)
+
+
+@app.route("/profile")
+@login_required
+def profile():
+    user_id = int(session["user"]["id"])
+    history = web_db.get_user_history(user_id, limit=100)
+    return render_template("profile.html", history=history)
 
 
 # ── Authenticated routes ──────────────────────────────────────────────────────

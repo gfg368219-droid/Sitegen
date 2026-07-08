@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Mon profil — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <div class="page-header">
+    <div class="profile-header">
+      <img src="{{ session.user.avatar }}" alt="{{ session.user.username }}" class="profile-avatar">
+      <div>
+        <h1 class="page-title">{{ session.user.username }}</h1>
+        <p class="page-sub">{{ history | length }} compte(s) généré(s)</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title" style="margin-bottom:1.25rem;">Historique</h2>
+
+  {% if history %}
+  <div class="history-list">
+    {% for entry in history %}
+    <div class="history-item">
+      <div class="history-service">{{ entry.service_name or 'Service supprimé' }}</div>
+      <div class="history-credential">
+        <code class="history-code" id="cred-{{ entry.id }}">{{ entry.account_data or '—' }}</code>
+        {% if entry.account_data %}
+        <button class="copy-btn" onclick="copyCredential('cred-{{ entry.id }}', this)" title="Copier">
+          {{ icon('copy', 15) }}
+        </button>
+        {% endif %}
+      </div>
+      <div class="history-date">{{ entry.created_at.strftime('%d/%m/%Y %H:%M') if entry.created_at else '' }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">{{ icon('gen', 56) }}</div>
+    <h3>Aucune génération pour l'instant</h3>
+    <p>Allez générer votre premier compte !</p>
+    <a href="{{ url_for('services') }}" class="btn btn-primary">Voir les services</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyCredential(id, btn) {
+  const text = document.getElementById(id).textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copy-btn--copied');
+    btn.title = 'Copié !';
+    setTimeout(() => {
+      btn.classList.remove('copy-btn--copied');
+      btn.title = 'Copier';
+    }, 2000);
+  });
+}
+</script>
+{% endblock %}
