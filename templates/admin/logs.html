@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Logs — Admin — ProaltsGen{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Logs</h1>
+      <p class="page-sub">Historique des comptes générés par les utilisateurs.</p>
+    </div>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-ghost">← Retour</a>
+  </div>
+
+  {% if logs %}
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Service</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>{{ log.username }}</td>
+          <td class="text-muted">{{ log.service_name or '—' }}</td>
+          <td class="text-muted">{{ log.created_at.strftime('%d/%m/%Y %H:%M') if log.created_at else '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-muted">Aucune génération enregistrée pour le moment.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -622,6 +622,13 @@ def admin_dashboard():
     return render_template("admin/dashboard.html", services=svc_list)
 
 
+@app.route("/admin/logs")
+@admin_required
+def admin_logs():
+    logs = web_db.get_all_gen_history(limit=200)
+    return render_template("admin/logs.html", logs=logs)
+
+
 @app.route("/admin/services/create", methods=["GET", "POST"])
 @admin_required
 def admin_create_service():

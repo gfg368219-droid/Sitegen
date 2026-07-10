@@ -30,6 +30,7 @@
         <a href="{{ url_for('leaderboard') }}" class="nav-link">Classement</a>
         {% if session.user.is_admin or session.user.is_owner %}
           <a href="{{ url_for('admin_dashboard') }}" class="nav-link nav-link--admin">Admin</a>
+          <a href="{{ url_for('admin_logs') }}" class="nav-link nav-link--admin">Logs</a>
         {% endif %}
         {% if session.user.is_owner %}
           <a href="{{ url_for('owner_dashboard') }}" class="nav-link nav-link--owner">Owner</a>

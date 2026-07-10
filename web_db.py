@@ -291,6 +291,19 @@ def get_leaderboard(limit: int = 50) -> list[dict]:
         return [dict(r) for r in cur.fetchall()]
 
 
+def get_all_gen_history(limit: int = 200) -> list[dict]:
+    with _db() as cur:
+        cur.execute(
+            """SELECT h.id, h.username, h.user_id, s.name AS service_name, h.created_at
+               FROM web_gen_history h
+               LEFT JOIN services s ON s.id = h.service_id
+               ORDER BY h.created_at DESC
+               LIMIT %s""",
+            (limit,),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
 def get_user_history(user_id: int, limit: int = 50) -> list[dict]:
     with _db() as cur:
         cur.execute(
