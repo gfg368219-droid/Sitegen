@@ -316,7 +316,7 @@ def _send_restock_webhook(service_name: str, image_url: str | None, added: int) 
     if image_url:
         embed["thumbnail"] = {"url": image_url}
     try:
-        requests.post(url, json={"embeds": [embed]}, timeout=5)
+        requests.post(url, json={"username": "Restock", "embeds": [embed]}, timeout=5)
     except Exception:
         pass
 
@@ -453,7 +453,7 @@ MAINTENANCE_CODE = "#Real2012"
 def check_maintenance():
     """Block non-admin/owner users when maintenance mode is on."""
     # Always allow static files, login flow, and the maintenance page itself
-    exempt_endpoints = {"static", "login", "callback", "logout", "maintenance_page"}
+    exempt_endpoints = {"static", "login", "callback", "logout", "maintenance_page", "maintenance_bypass"}
     if request.endpoint in exempt_endpoints:
         return None
 
@@ -463,6 +463,10 @@ def check_maintenance():
     # Admins and owners bypass maintenance
     user = session.get("user")
     if user and (user.get("is_admin") or user.get("is_owner")):
+        return None
+
+    # Secret code bypass (set via logo click on maintenance page)
+    if session.get("maintenance_bypass"):
         return None
 
     # Everyone else sees the maintenance page
@@ -816,6 +820,15 @@ def owner_toggle_maintenance():
 @app.route("/maintenance")
 def maintenance_page():
     return render_template("maintenance.html"), 503
+
+
+@app.route("/maintenance-bypass", methods=["POST"])
+def maintenance_bypass():
+    code = request.form.get("code", "").strip()
+    if code == MAINTENANCE_CODE:
+        session["maintenance_bypass"] = True
+        return redirect(url_for("index"))
+    return render_template("maintenance.html", bypass_error=True), 503
 
 
 # ── Error handlers ────────────────────────────────────────────────────────────
