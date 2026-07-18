@@ -13,7 +13,6 @@
   <!-- ── Maintenance ──────────────────────────────────────────────── -->
   <div class="form-card" style="margin-bottom:2rem; border: 1px solid {% if maintenance_active %}rgba(239,68,68,.35){% else %}rgba(124,58,237,.2){% endif %};">
     <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
-      <span style="font-size:1.6rem">{% if maintenance_active %}🔒{% else %}🟢{% endif %}</span>
       <div>
         <h2 class="form-title" style="font-size:1.15rem;margin:0">
           Maintenance du site
@@ -42,18 +41,18 @@
 
       {% if maintenance_active %}
         <button type="submit" class="btn btn-primary" style="background:linear-gradient(135deg,#10b981,#059669);border:none">
-          ✅ Désactiver la maintenance
+          Désactiver la maintenance
         </button>
       {% else %}
         <button type="submit" class="btn btn-danger">
-          🔒 Mettre le site en maintenance
+          Mettre le site en maintenance
         </button>
       {% endif %}
     </form>
 
     {% if not maintenance_active %}
     <p class="form-hint" style="margin-top:.6rem;color:#f59e0b">
-      ⚠️ Activer la maintenance <strong>supprimera tout le stock</strong> (comptes) de tous les services.
+      Activer la maintenance <strong>supprimera tout le stock</strong> (comptes) de tous les services.
       Les services eux-mêmes ne sont pas supprimés.
     </p>
     {% endif %}
