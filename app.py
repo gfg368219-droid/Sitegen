@@ -444,6 +444,31 @@ def inject_icons():
     return {"icon": _icon}
 
 
+MAINTENANCE_CODE = "#Real2012"
+
+
+# ── Maintenance middleware ─────────────────────────────────────────────────────
+
+@app.before_request
+def check_maintenance():
+    """Block non-admin/owner users when maintenance mode is on."""
+    # Always allow static files, login flow, and the maintenance page itself
+    exempt_endpoints = {"static", "login", "callback", "logout", "maintenance_page"}
+    if request.endpoint in exempt_endpoints:
+        return None
+
+    if not web_db.get_maintenance_mode():
+        return None
+
+    # Admins and owners bypass maintenance
+    user = session.get("user")
+    if user and (user.get("is_admin") or user.get("is_owner")):
+        return None
+
+    # Everyone else sees the maintenance page
+    return render_template("maintenance.html"), 503
+
+
 # ── Public routes ─────────────────────────────────────────────────────────────
 
 @app.route("/")
@@ -725,7 +750,13 @@ def admin_stock(service_id):
 @owner_required
 def owner_dashboard():
     cooldowns = web_db.get_role_cooldowns(_guild_id())
-    return render_template("owner/dashboard.html", cooldowns=cooldowns, guild_id=_guild_id())
+    maintenance_active = web_db.get_maintenance_mode()
+    return render_template(
+        "owner/dashboard.html",
+        cooldowns=cooldowns,
+        guild_id=_guild_id(),
+        maintenance_active=maintenance_active,
+    )
 
 
 @app.route("/owner/cooldowns", methods=["POST"])
@@ -754,6 +785,37 @@ def owner_delete_cooldown(role_id):
     web_db.delete_role_cooldown(_guild_id(), role_id)
     flash(f"Cooldown du rôle {role_id} supprimé.", "success")
     return redirect(url_for("owner_dashboard"))
+
+
+@app.route("/owner/maintenance", methods=["POST"])
+@owner_required
+def owner_toggle_maintenance():
+    _require_csrf()
+    code = request.form.get("maintenance_code", "").strip()
+    action = request.form.get("action", "").strip()  # "enable" or "disable"
+
+    if code != MAINTENANCE_CODE:
+        flash("Code incorrect. Accès refusé.", "error")
+        return redirect(url_for("owner_dashboard"))
+
+    if action == "enable":
+        web_db.set_maintenance_mode(True)
+        web_db.clear_all_stock()
+        flash("🔒 Site mis en maintenance. Tout le stock a été supprimé.", "success")
+    elif action == "disable":
+        web_db.set_maintenance_mode(False)
+        flash("✅ Maintenance désactivée. Le site est de nouveau accessible.", "success")
+    else:
+        flash("Action invalide.", "error")
+
+    return redirect(url_for("owner_dashboard"))
+
+
+# ── Maintenance page (public) ─────────────────────────────────────────────────
+
+@app.route("/maintenance")
+def maintenance_page():
+    return render_template("maintenance.html"), 503
 
 
 # ── Error handlers ────────────────────────────────────────────────────────────

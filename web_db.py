@@ -137,6 +137,13 @@ def init_db():
             ALTER TABLE web_gen_history ADD COLUMN IF NOT EXISTS account_data TEXT;
             ALTER TABLE web_users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT FALSE;
             ALTER TABLE web_users ADD COLUMN IF NOT EXISTS is_owner BOOLEAN NOT NULL DEFAULT FALSE;
+
+            CREATE TABLE IF NOT EXISTS site_settings (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL
+            );
+            INSERT INTO site_settings (key, value) VALUES ('maintenance_mode', 'false')
+                ON CONFLICT (key) DO NOTHING;
         """)
 
 
@@ -371,6 +378,37 @@ def delete_role_cooldown(guild_id: int, role_id: int):
             (guild_id, role_id),
         )
 
+
+# ── Maintenance mode ──────────────────────────────────────────────────────────
+
+def get_maintenance_mode() -> bool:
+    """Returns True if the site is currently in maintenance mode."""
+    try:
+        with _db() as cur:
+            cur.execute("SELECT value FROM site_settings WHERE key='maintenance_mode'")
+            row = cur.fetchone()
+            return row["value"] == "true" if row else False
+    except Exception:
+        return False
+
+
+def set_maintenance_mode(enabled: bool):
+    """Enable or disable maintenance mode."""
+    with _db() as cur:
+        cur.execute(
+            "INSERT INTO site_settings (key, value) VALUES ('maintenance_mode', %s) "
+            "ON CONFLICT (key) DO UPDATE SET value=%s",
+            ("true" if enabled else "false", "true" if enabled else "false"),
+        )
+
+
+def clear_all_stock():
+    """Delete all accounts (stock) from every service. Services are kept."""
+    with _db() as cur:
+        cur.execute("DELETE FROM accounts")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 
 def get_role_cooldown_for_roles(guild_id: int, role_ids: list[int]) -> int | None:
     if not role_ids:

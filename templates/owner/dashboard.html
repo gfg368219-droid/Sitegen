@@ -10,6 +10,55 @@
     </div>
   </div>
 
+  <!-- ── Maintenance ──────────────────────────────────────────────── -->
+  <div class="form-card" style="margin-bottom:2rem; border: 1px solid {% if maintenance_active %}rgba(239,68,68,.35){% else %}rgba(124,58,237,.2){% endif %};">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+      <span style="font-size:1.6rem">{% if maintenance_active %}🔒{% else %}🟢{% endif %}</span>
+      <div>
+        <h2 class="form-title" style="font-size:1.15rem;margin:0">
+          Maintenance du site
+        </h2>
+        <p style="margin:0;font-size:.85rem;color:{% if maintenance_active %}#ef4444{% else %}#10b981{% endif %}">
+          {% if maintenance_active %}
+            Site actuellement <strong>en maintenance</strong> — seuls Admin et Owner ont accès.
+          {% else %}
+            Site actuellement <strong>en ligne</strong> — accessible à tous.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    <form method="POST" action="{{ url_for('owner_toggle_maintenance') }}"
+          onsubmit="return confirmMaintenance(this)"
+          class="form" style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-end">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="action" value="{% if maintenance_active %}disable{% else %}enable{% endif %}">
+
+      <div class="form-group" style="flex:1;min-width:220px;margin:0">
+        <label class="form-label" for="maintenance_code">Code de confirmation</label>
+        <input type="password" id="maintenance_code" name="maintenance_code"
+               class="form-input" placeholder="Entrez le code secret" autocomplete="off" required>
+      </div>
+
+      {% if maintenance_active %}
+        <button type="submit" class="btn btn-primary" style="background:linear-gradient(135deg,#10b981,#059669);border:none">
+          ✅ Désactiver la maintenance
+        </button>
+      {% else %}
+        <button type="submit" class="btn btn-danger">
+          🔒 Mettre le site en maintenance
+        </button>
+      {% endif %}
+    </form>
+
+    {% if not maintenance_active %}
+    <p class="form-hint" style="margin-top:.6rem;color:#f59e0b">
+      ⚠️ Activer la maintenance <strong>supprimera tout le stock</strong> (comptes) de tous les services.
+      Les services eux-mêmes ne sont pas supprimés.
+    </p>
+    {% endif %}
+  </div>
+
   <div class="owner-layout">
     <!-- Add cooldown form -->
     <div class="form-card">
@@ -59,4 +108,14 @@
     </div>
   </div>
 </div>
+
+<script>
+function confirmMaintenance(form) {
+  const action = form.querySelector('[name="action"]').value;
+  if (action === 'enable') {
+    return confirm('⚠️ Confirmer la mise en maintenance ?\n\nTout le stock (comptes) sera supprimé définitivement.');
+  }
+  return confirm('Confirmer la désactivation de la maintenance ?');
+}
+</script>
 {% endblock %}
