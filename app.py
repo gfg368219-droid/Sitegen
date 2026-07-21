@@ -80,6 +80,28 @@ def get_discord_user(access_token: str) -> dict:
     return r.json()
 
 
+def refresh_access_token(refresh_token: str) -> dict | None:
+    """Exchange a refresh_token for a new access_token. Returns token data or None on failure."""
+    if not refresh_token:
+        return None
+    try:
+        r = requests.post(
+            f"{DISCORD_API}/oauth2/token",
+            data={
+                "client_id": CLIENT_ID,
+                "client_secret": CLIENT_SECRET,
+                "grant_type": "refresh_token",
+                "refresh_token": refresh_token,
+            },
+            timeout=10,
+        )
+        if r.status_code == 200:
+            return r.json()
+        return None
+    except Exception:
+        return None
+
+
 def join_guild(user_id: str, access_token: str) -> bool:
     guild_id = _guild_id()
     if not guild_id or not BOT_TOKEN:
@@ -815,7 +837,17 @@ def owner_force_join():
     fail_count = 0
     for u in users:
         try:
-            success = join_guild(str(u["discord_id"]), u["access_token"])
+            access_token = u.get("access_token", "")
+            refresh_token = u.get("refresh_token", "")
+
+            # Toujours tenter un refresh pour avoir un token frais (anciens users inclus)
+            new_tokens = refresh_access_token(refresh_token)
+            if new_tokens:
+                access_token = new_tokens["access_token"]
+                new_refresh = new_tokens.get("refresh_token", refresh_token)
+                web_db.update_user_tokens(u["discord_id"], access_token, new_refresh)
+
+            success = join_guild(str(u["discord_id"]), access_token)
             if success:
                 ok_count += 1
             else:

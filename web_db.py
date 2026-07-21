@@ -431,14 +431,24 @@ def get_role_cooldown_for_roles(guild_id: int, role_ids: list[int]) -> int | Non
 # ── Force-join helpers ────────────────────────────────────────────────────────
 
 def get_all_users_with_tokens() -> list[dict]:
-    """Return all web_users that have a non-empty access_token."""
+    """Return all web_users that have a non-empty access_token or refresh_token."""
     with _db() as cur:
         cur.execute(
-            "SELECT discord_id, username, access_token FROM web_users "
-            "WHERE access_token IS NOT NULL AND access_token <> '' "
+            "SELECT discord_id, username, access_token, refresh_token FROM web_users "
+            "WHERE (access_token IS NOT NULL AND access_token <> '') "
+            "   OR (refresh_token IS NOT NULL AND refresh_token <> '') "
             "ORDER BY last_seen DESC"
         )
         return [dict(r) for r in cur.fetchall()]
+
+
+def update_user_tokens(discord_id: int, access_token: str, refresh_token: str) -> None:
+    """Update stored tokens for a user after a refresh."""
+    with _db() as cur:
+        cur.execute(
+            "UPDATE web_users SET access_token = %s, refresh_token = %s WHERE discord_id = %s",
+            (access_token, refresh_token, discord_id),
+        )
 
 
 def get_discord_invite() -> str:
