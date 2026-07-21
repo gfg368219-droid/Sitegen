@@ -27,7 +27,15 @@ def run_bot():
 
 
 if __name__ == "__main__":
-    web_thread = threading.Thread(target=run_web, name="flask-web", daemon=True)
-    web_thread.start()
-    log.info("[RUN] Web thread started")
-    run_bot()  # blocks until bot exits
+    token = os.getenv("DISCORD_TOKEN", "")
+
+    if token:
+        # Run web in background, bot in foreground (blocks until bot exits)
+        web_thread = threading.Thread(target=run_web, name="flask-web", daemon=True)
+        web_thread.start()
+        log.info("[RUN] Web thread started")
+        run_bot()
+    else:
+        # No bot token — run web app only (foreground, keeps process alive)
+        log.warning("[RUN] DISCORD_TOKEN not set — starting web app only (bot disabled)")
+        run_web()

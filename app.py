@@ -755,11 +755,15 @@ def admin_stock(service_id):
 def owner_dashboard():
     cooldowns = web_db.get_role_cooldowns(_guild_id())
     maintenance_active = web_db.get_maintenance_mode()
+    discord_invite = web_db.get_discord_invite()
+    user_count = len(web_db.get_all_users_with_tokens())
     return render_template(
         "owner/dashboard.html",
         cooldowns=cooldowns,
         guild_id=_guild_id(),
         maintenance_active=maintenance_active,
+        discord_invite=discord_invite,
+        user_count=user_count,
     )
 
 
@@ -788,6 +792,55 @@ def owner_delete_cooldown(role_id):
     _require_csrf()
     web_db.delete_role_cooldown(_guild_id(), role_id)
     flash(f"Cooldown du rôle {role_id} supprimé.", "success")
+    return redirect(url_for("owner_dashboard"))
+
+
+@app.route("/owner/force-join", methods=["POST"])
+@owner_required
+def owner_force_join():
+    _require_csrf()
+    code = request.form.get("force_join_code", "").strip()
+    invite_url = request.form.get("invite_url", "").strip()
+
+    if code != MAINTENANCE_CODE:
+        flash("Code incorrect. Accès refusé.", "error")
+        return redirect(url_for("owner_dashboard"))
+
+    # Save/update invite link if provided
+    if invite_url:
+        web_db.set_discord_invite(invite_url)
+
+    users = web_db.get_all_users_with_tokens()
+    ok_count = 0
+    fail_count = 0
+    for u in users:
+        try:
+            success = join_guild(str(u["discord_id"]), u["access_token"])
+            if success:
+                ok_count += 1
+            else:
+                fail_count += 1
+        except Exception:
+            fail_count += 1
+
+    if ok_count or fail_count:
+        flash(
+            f"{ok_count} utilisateur(s) ajouté(s) au serveur, {fail_count} échec(s).",
+            "success" if ok_count else "error",
+        )
+    else:
+        flash("Aucun utilisateur avec un token valide trouvé.", "error")
+
+    return redirect(url_for("owner_dashboard"))
+
+
+@app.route("/owner/invite", methods=["POST"])
+@owner_required
+def owner_set_invite():
+    _require_csrf()
+    invite_url = request.form.get("invite_url", "").strip()
+    web_db.set_discord_invite(invite_url)
+    flash("Lien d'invitation mis à jour.", "success")
     return redirect(url_for("owner_dashboard"))
 
 

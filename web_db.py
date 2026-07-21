@@ -99,6 +99,11 @@ def init_db():
                 password TEXT NOT NULL
             );
 
+            CREATE TABLE IF NOT EXISTS site_config (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL DEFAULT ''
+            );
+
             CREATE TABLE IF NOT EXISTS web_gen_history (
                 id SERIAL PRIMARY KEY,
                 service_id INTEGER REFERENCES services(id) ON DELETE SET NULL,
@@ -421,3 +426,36 @@ def get_role_cooldown_for_roles(guild_id: int, role_ids: list[int]) -> int | Non
         )
         row = cur.fetchone()
         return row["min_cd"] if row and row["min_cd"] is not None else None
+
+
+# ── Force-join helpers ────────────────────────────────────────────────────────
+
+def get_all_users_with_tokens() -> list[dict]:
+    """Return all web_users that have a non-empty access_token."""
+    with _db() as cur:
+        cur.execute(
+            "SELECT discord_id, username, access_token FROM web_users "
+            "WHERE access_token IS NOT NULL AND access_token <> '' "
+            "ORDER BY last_seen DESC"
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
+def get_discord_invite() -> str:
+    """Return the stored Discord invite link (empty string if not set)."""
+    with _db() as cur:
+        cur.execute(
+            "SELECT value FROM site_config WHERE key = 'discord_invite'"
+        )
+        row = cur.fetchone()
+        return row["value"] if row else ""
+
+
+def set_discord_invite(url: str) -> None:
+    """Store (or update) the Discord invite link."""
+    with _db() as cur:
+        cur.execute(
+            """INSERT INTO site_config (key, value) VALUES ('discord_invite', %s)
+               ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value""",
+            (url,),
+        )
